@@ -352,7 +352,9 @@ extern "C" DISCORD_EXPORT void Discord_Shutdown(void)
     if (!Connection) {
         return;
     }
-    Connection->onConnect = nullptr;
+    if (Handlers.disconnected)
+        Handlers.disconnected(0, "", Handlers.payload);
+	Connection->onConnect = nullptr;
     Connection->onDisconnect = nullptr;
     Handlers = {};
     QueuedPresence.length = 0;
